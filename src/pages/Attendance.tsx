@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
@@ -21,6 +20,10 @@ const Attendance = () => {
   const { toast } = useToast();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isCheckedIn, setIsCheckedIn] = useState(false);
+  const [showLeaveForm, setShowLeaveForm] = useState(false);
+  const [leaveType, setLeaveType] = useState("sick");
+  const [leaveDate, setLeaveDate] = useState("");
+  const [leaveReason, setLeaveReason] = useState("");
 
   const handleCheckIn = () => {
     setIsCheckedIn(true);
@@ -44,6 +47,26 @@ const Attendance = () => {
     });
   };
 
+  const handleLeaveSubmit = () => {
+    if (!leaveDate || !leaveReason.trim()) {
+      toast({
+        title: "Missing information",
+        description: "Please fill in all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Leave application submitted",
+      description: `${leaveType} leave for ${leaveDate} has been submitted for approval`,
+    });
+    
+    setShowLeaveForm(false);
+    setLeaveReason("");
+    setLeaveDate("");
+  };
+
   const attendanceHistory = [
     { date: "Aug 5, 2024", checkIn: "9:00 AM", checkOut: "6:30 PM", status: "Present" },
     { date: "Aug 2, 2024", checkIn: "9:15 AM", checkOut: "6:45 PM", status: "Present" },
@@ -55,7 +78,7 @@ const Attendance = () => {
     <div className="min-h-screen bg-background pb-20">
       <Header title="Attendance" />
 
-      <div className="max-w-md mx-auto p-4">
+      <div className="max-w-md mx-auto p-4 space-y-4">
         <Button 
           variant="ghost" 
           onClick={() => navigate(-1)}
@@ -66,7 +89,7 @@ const Attendance = () => {
         </Button>
 
         {/* Today's Attendance */}
-        <Card className="p-6 mb-4 bg-gradient-card shadow-card text-center">
+        <Card className="p-6 bg-gradient-card shadow-card text-center">
           <div className="bg-primary/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
             <User className="w-8 h-8 text-primary" />
           </div>
@@ -104,8 +127,79 @@ const Attendance = () => {
           )}
         </Card>
 
+        {/* Apply for Leave */}
+        <Card className="p-4 bg-gradient-card shadow-card">
+          <h3 className="font-semibold text-text-high mb-3 flex items-center gap-2">
+            <CalendarIcon className="w-4 h-4" />
+            Leave Management
+          </h3>
+          
+          <Button 
+            onClick={() => setShowLeaveForm(!showLeaveForm)}
+            variant="outline"
+            className="w-full border-warning text-warning hover:bg-warning-light"
+          >
+            <CalendarIcon className="w-4 h-4 mr-2" />
+            Apply for Leave
+          </Button>
+
+          {showLeaveForm && (
+            <div className="mt-4 space-y-3 bg-background/50 p-3 rounded-lg border border-border">
+              <div>
+                <label className="text-text-high text-sm font-medium">Leave Type</label>
+                <select 
+                  value={leaveType}
+                  onChange={(e) => setLeaveType(e.target.value)}
+                  className="w-full mt-1 p-2 border border-border rounded-md bg-background text-text-high"
+                >
+                  <option value="sick">Sick Leave</option>
+                  <option value="casual">Casual Leave</option>
+                  <option value="emergency">Emergency Leave</option>
+                </select>
+              </div>
+              
+              <div>
+                <label className="text-text-high text-sm font-medium">Date</label>
+                <input 
+                  type="date"
+                  value={leaveDate}
+                  onChange={(e) => setLeaveDate(e.target.value)}
+                  className="w-full mt-1 p-2 border border-border rounded-md bg-background text-text-high"
+                />
+              </div>
+              
+              <div>
+                <label className="text-text-high text-sm font-medium">Reason</label>
+                <textarea 
+                  value={leaveReason}
+                  onChange={(e) => setLeaveReason(e.target.value)}
+                  placeholder="Brief reason for leave..."
+                  className="w-full mt-1 p-2 border border-border rounded-md bg-background text-text-high resize-none"
+                  rows={3}
+                />
+              </div>
+              
+              <div className="flex gap-2">
+                <Button 
+                  onClick={handleLeaveSubmit}
+                  className="flex-1 bg-success hover:bg-success/90 text-success-foreground"
+                >
+                  Submit Application
+                </Button>
+                <Button 
+                  onClick={() => setShowLeaveForm(false)}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          )}
+        </Card>
+
         {/* Calendar */}
-        <Card className="p-4 mb-4 bg-gradient-card shadow-card">
+        <Card className="p-4 bg-gradient-card shadow-card">
           <h3 className="font-semibold text-text-high mb-3 flex items-center gap-2">
             <CalendarIcon className="w-4 h-4" />
             Attendance Calendar
@@ -146,21 +240,6 @@ const Attendance = () => {
             ))}
           </div>
         </Card>
-
-        {/* Apply Leave */}
-        <Button
-          variant="outline"
-          className="w-full mt-4 h-12 border-warning text-warning hover:bg-warning-light"
-          onClick={() => {
-            toast({
-              title: "Leave Application",
-              description: "Leave application feature coming soon",
-            });
-          }}
-        >
-          <CalendarIcon className="w-4 h-4 mr-2" />
-          Apply for Leave
-        </Button>
       </div>
 
       <BottomNavigation />

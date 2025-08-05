@@ -21,6 +21,8 @@ import AddNote from "./pages/AddNote";
 import Survey from "./pages/Survey";
 import Attendance from "./pages/Attendance";
 import OrderDetails from "./pages/OrderDetails";
+import HelpTraining from "./pages/HelpTraining";
+import ProductKnowledge from "./pages/ProductKnowledge";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -49,7 +51,9 @@ const App = () => (
           <Route path="/add-note" element={<AddNote />} />
           <Route path="/survey" element={<Survey />} />
           <Route path="/attendance" element={<Attendance />} />
-          <Route path="/order-details" element={<OrderDetails />} />
+          <Route path="/order-details/:orderId" element={<OrderDetails />} />
+          <Route path="/help-training" element={<HelpTraining />} />
+          <Route path="/product-knowledge" element={<ProductKnowledge />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

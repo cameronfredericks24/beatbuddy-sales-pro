@@ -17,7 +17,9 @@ import {
   User,
   MapPin,
   Calendar,
-  IndianRupee
+  IndianRupee,
+  Gift,
+  Share
 } from "lucide-react";
 
 const OutletDetail = () => {
@@ -186,6 +188,48 @@ const OutletDetail = () => {
             Competitor XYZ has new display - need to discuss counter strategy."
           </p>
           <p className="text-text-low text-xs mt-2">- 5 Aug 2024, 2:30 PM</p>
+        </Card>
+
+        {/* Available Schemes for Retailer */}
+        <Card className="p-4 mb-4 bg-gradient-card shadow-card">
+          <h3 className="font-semibold text-text-high mb-3 flex items-center gap-2">
+            <Gift className="w-4 h-4 text-success" />
+            Available Schemes
+          </h3>
+          
+          <div className="space-y-3">
+            <div className="bg-success-light p-3 rounded-lg border border-success/20">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="font-medium text-success text-sm">Monsoon Special - Tea Range</h4>
+                <Button size="sm" className="bg-success hover:bg-success/90 text-success-foreground">
+                  <Share className="w-3 h-3 mr-1" />
+                  Show
+                </Button>
+              </div>
+              <p className="text-text-high text-sm font-medium">Buy 10 Get 2 Free</p>
+              <p className="text-text-medium text-xs">Valid till 31 Aug 2024 • Perfect for monsoon sales boost</p>
+            </div>
+            
+            <div className="bg-warning-light p-3 rounded-lg border border-warning/20">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="font-medium text-warning text-sm">Festival Special</h4>
+                <Button size="sm" className="bg-warning hover:bg-warning/90 text-warning-foreground">
+                  <Share className="w-3 h-3 mr-1" />
+                  Show
+                </Button>
+              </div>
+              <p className="text-text-high text-sm font-medium">Flat 20% Off on Cooking Essentials</p>
+              <p className="text-text-medium text-xs">Valid till 10 Sep 2024 • Coconut Oil, Ghee, Spices</p>
+            </div>
+          </div>
+          
+          <Button 
+            variant="outline" 
+            className="w-full mt-3 border-primary text-primary hover:bg-primary-light"
+            onClick={() => navigate("/product-knowledge")}
+          >
+            View All Schemes & Products
+          </Button>
         </Card>
 
         {/* Check-out Button */}

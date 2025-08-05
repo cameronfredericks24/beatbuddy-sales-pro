@@ -174,12 +174,7 @@ const Profile = () => {
           <Button
             variant="outline"
             className="w-full h-12 justify-start border-info text-info hover:bg-info-light"
-            onClick={() => {
-              toast({
-                title: "Help & Training",
-                description: "Opening help resources...",
-              });
-            }}
+            onClick={() => navigate("/help-training")}
           >
             <HelpCircle className="w-4 h-4 mr-3" />
             <div className="text-left">
@@ -192,12 +187,7 @@ const Profile = () => {
           <Button
             variant="outline"
             className="w-full h-12 justify-start border-warning text-warning hover:bg-warning-light"
-            onClick={() => {
-              toast({
-                title: "Knowledge Base",
-                description: "Opening product information...",
-              });
-            }}
+            onClick={() => navigate("/product-knowledge")}
           >
             <BookOpen className="w-4 h-4 mr-3" />
             <div className="text-left">
