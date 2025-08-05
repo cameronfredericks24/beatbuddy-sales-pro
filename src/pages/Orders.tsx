@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -5,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Header from "@/components/Header";
 import BottomNavigation from "@/components/BottomNavigation";
+import { useNavigate } from "react-router-dom";
 import { 
   ShoppingCart,
   Calendar,
@@ -17,6 +19,8 @@ import {
 } from "lucide-react";
 
 const Orders = () => {
+  const navigate = useNavigate();
+
   const todayOrders = [
     {
       id: "ORD001",
@@ -95,6 +99,10 @@ const Orders = () => {
       default:
         return <Clock className="w-4 h-4 text-text-medium" />;
     }
+  };
+
+  const handleViewDetails = (orderId: string) => {
+    navigate(`/order-details?id=${orderId}`);
   };
 
   const totalToday = todayOrders.reduce((sum, order) => sum + order.amount, 0);
@@ -187,6 +195,7 @@ const Orders = () => {
                   variant="outline" 
                   size="sm" 
                   className="w-full border-primary text-primary hover:bg-primary-light"
+                  onClick={() => handleViewDetails(order.id)}
                 >
                   <Eye className="w-3 h-3 mr-2" />
                   View Details
@@ -239,6 +248,7 @@ const Orders = () => {
                   variant="outline" 
                   size="sm" 
                   className="w-full border-primary text-primary hover:bg-primary-light"
+                  onClick={() => handleViewDetails(order.id)}
                 >
                   <Eye className="w-3 h-3 mr-2" />
                   View Details
